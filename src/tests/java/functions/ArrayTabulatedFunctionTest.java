@@ -69,4 +69,32 @@ class ArrayTabulatedFunctionTest {
         assertEquals(2, function.indexOfY(4.0));
         assertEquals(-1, function.indexOfY(3.0));
     }
+
+    @Test
+    public void testInsertAndUpdate() {
+        double[] x = {1, 3, 5};
+        double[] y = {10, 30, 50};
+        ArrayTabulatedFunction f = new ArrayTabulatedFunction(x, y);
+
+        f.insert(4, 40); // вставка в середину
+        assertEquals(4, f.getCount());
+        assertEquals(4, f.getX(2));
+        assertEquals(40, f.getY(2));
+
+        f.insert(3, 300); // обновление существующего
+        assertEquals(4, f.getCount()); // количество не изменилось
+        assertEquals(300, f.getY(1));
+    }
+
+    @Test
+    public void testRemoveFromMiddle() {
+        double[] x = {1, 2, 3, 4};
+        double[] y = {10, 20, 30, 40};
+        ArrayTabulatedFunction f = new ArrayTabulatedFunction(x, y);
+
+        f.remove(1); // удаляем x=2
+        assertEquals(3, f.getCount());
+        assertEquals(3, f.getX(1));
+        assertEquals(30, f.getY(1));
+    }
 }
