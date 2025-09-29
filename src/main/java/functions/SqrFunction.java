@@ -1,4 +1,4 @@
-package main.functions;
+package functions;
 
 public class SqrFunction implements MathFunction{
     @Override

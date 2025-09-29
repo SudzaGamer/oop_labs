@@ -1,6 +1,5 @@
-package tests.functions;
+package functions;
 
-import main.functions.IdentityFunction;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
