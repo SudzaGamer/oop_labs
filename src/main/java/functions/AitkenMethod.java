@@ -1,4 +1,4 @@
-package main.functions;
+package functions;
 
 public class AitkenMethod implements MathFunction {          //Формула: XAitken = x2 - ((x2 - x1)2 / ((x2 - x1) - (x1 - x2)))
     private static final double TOLERANCE = 1e-10;
