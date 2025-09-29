@@ -1,4 +1,4 @@
-package main.functions;
+package functions;
 
 interface MathFunction {
     double apply(double x);
