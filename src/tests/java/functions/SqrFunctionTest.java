@@ -1,10 +1,12 @@
 package functions;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SqrFunctionTest {
 
-    @org.junit.jupiter.api.Test
+    @Test
     void apply() {
         SqrFunction fun = new SqrFunction();
 
