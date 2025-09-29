@@ -1,6 +1,6 @@
 package functions;
 
-public class SimpleIterationSolver {
+public class SimpleIterationSolver implements MathFunction {
     private final MathFunction fun;
     private final double tolerance;
     private final int maxIterations;
@@ -11,7 +11,7 @@ public class SimpleIterationSolver {
         this.maxIterations = maxIterations;
     }
 
-    public double solve(double x0) throws RuntimeException {
+    public double apply(double x0) throws RuntimeException {
         double x = x0;
         for (int i = 0; i < maxIterations; i++) {
             double nextX = fun.apply(x);
