@@ -1,6 +1,6 @@
 package functions;
 
-public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
+public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Insertable {
     private Node head;
     private int count;
 
@@ -174,5 +174,55 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
         Node leftNode = getNode(floorIndex);
         Node rightNode = leftNode.next;
         return interpolate(x, leftNode.x, rightNode.x, leftNode.y, rightNode.y);
+    }
+
+    @Override
+    public void insert(double x, double y) {
+        // Если точка с таким x уже есть — просто обновляем y
+        int index = indexOfX(x);
+        if (index != -1) {
+            getNode(index).y = y;
+            return;
+        }
+
+        Node newNode = new Node();
+        newNode.x = x;
+        newNode.y = y;
+
+        if (head == null) {
+            // Пустой список
+            head = newNode;
+            newNode.next = newNode;
+            newNode.prev = newNode;
+        } else {
+            Node current = head;
+            // Найти место для вставки
+            do {
+                if (x < current.x) {
+                    // Вставляем перед current
+                    Node prev = current.prev;
+                    prev.next = newNode;
+                    newNode.prev = prev;
+                    newNode.next = current;
+                    current.prev = newNode;
+
+                    // если вставка в голову
+                    if (current == head && x < head.x) {
+                        head = newNode;
+                    }
+                    count++;
+                    return;
+                }
+                current = current.next;
+            } while (current != head);
+
+            // Если x больше всех — вставляем в конец
+            Node last = head.prev;
+            last.next = newNode;
+            newNode.prev = last;
+            newNode.next = head;
+            head.prev = newNode;
+        }
+        count++;
     }
 }
