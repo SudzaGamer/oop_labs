@@ -27,8 +27,8 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
         if (xValues.length != yValues.length) {
             throw new IllegalArgumentException("Arrays must have the same length");
         }
-        if (xValues.length < 2) {
-            throw new IllegalArgumentException("At least 2 points are required");
+        if (xValues.length < 1) {
+            throw new IllegalArgumentException("At least 1 points are required");
         }
 
         for (int i = 0; i < xValues.length; i++) {

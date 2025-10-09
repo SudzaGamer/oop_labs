@@ -11,8 +11,8 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         if (xValues.length != yValues.length) {
             throw new IllegalArgumentException("Arrays must have the same length");
         }
-        if (xValues.length < 2) {
-            throw new IllegalArgumentException("At least 2 points are required");
+        if (xValues.length < 1) {
+            throw new IllegalArgumentException("At least 1 points are required");
         }
 
         this.count = xValues.length;
@@ -48,6 +48,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         }
     }
 
+
     @Override
     public int getCount() {
         return count;
@@ -61,6 +62,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         return xValues[index];
     }
 
+
     @Override
     public double getY(int index) {
         if (index < 0 || index >= count) {
@@ -69,6 +71,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         return yValues[index];
     }
 
+
     @Override
     public void setY(int index, double value) {
         if (index < 0 || index >= count) {
@@ -76,6 +79,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         }
         yValues[index] = value;
     }
+
 
     @Override
     public int indexOfX(double x) {
@@ -86,6 +90,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         }
         return -1;
     }
+
 
     @Override
     public int indexOfY(double y) {
@@ -113,7 +118,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
             return 0;
         }
         if (x > xValues[count - 1]) {
-            return count - 1;
+            return count;
         }
 
         for (int i = 1; i < count; i++) {
@@ -121,7 +126,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
                 return i - 1;
             }
         }
-        return count - 2;
+        return count -1;
     }
 
     @Override
