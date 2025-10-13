@@ -81,4 +81,43 @@ class LinkedListTabulatedFunctionTest {
         assertEquals(2.0, function.getX(2), 1e-10);
         assertEquals(0.0, function.getX(0), 1e-10); // Должен вернуться к началу
     }
+
+    @Test
+    void testRemoveFirst() {
+        double[] xValues = {1, 2, 3};
+        double[] yValues = {10, 20, 30};
+        LinkedListTabulatedFunction fun = new LinkedListTabulatedFunction(xValues, yValues);
+
+        fun.remove(0);
+
+        assertEquals(2, fun.getCount());
+        assertEquals(2, fun.getX(0), 1e-10);
+        assertEquals(3, fun.getX(1), 1e-10);
+    }
+
+    @Test
+    void testInsertMainCases() {
+        LinkedListTabulatedFunction f = new LinkedListTabulatedFunction(
+                new double[]{2, 4, 6}, new double[]{20, 40, 60}
+        );
+
+        f.insert(1, 10);
+        assertEquals(4, f.getCount());
+        assertEquals(1, f.getX(0));
+        assertEquals(10, f.getY(0));
+
+        f.insert(3, 30);
+        assertEquals(5, f.getCount());
+        assertEquals(3, f.getX(2));
+        assertEquals(30, f.getY(2));
+
+        f.insert(8, 80);
+        assertEquals(6, f.getCount());
+        assertEquals(8, f.getX(5));
+        assertEquals(80, f.getY(5));
+
+        f.insert(4, 400);
+        assertEquals(6, f.getCount());
+        assertEquals(400, f.getY(3));
+    }
 }

@@ -7,8 +7,6 @@ public class ConstantFunction implements MathFunction {
         constant = cons;
     }
 
-    public double getConstant() {return constant; }
-
     @Override
     public double apply(double x){
         return constant;
