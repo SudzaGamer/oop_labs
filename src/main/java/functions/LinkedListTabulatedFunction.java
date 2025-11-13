@@ -36,8 +36,8 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
         if (xValues.length != yValues.length) {
             throw new IllegalArgumentException("Arrays must have the same length");
         }
-        if (xValues.length < 1) {
-            throw new IllegalArgumentException("At least 1 points are required");
+        if (xValues.length < 2) {
+            throw new IllegalArgumentException("At least 2 points are required");
         }
 
         for (int i = 0; i < xValues.length; i++) {
@@ -157,9 +157,6 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
     @Override
     protected double extrapolateLeft(double x) {
-        if (count == 1) {
-            return head.y;
-        }
         Node first = head;
         Node second = head.next;
         return interpolate(x, first.x, second.x, first.y, second.y);
@@ -167,9 +164,6 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
     @Override
     protected double extrapolateRight(double x) {
-        if (count == 1) {
-            return head.y;
-        }
         Node last = head.prev;
         Node prevLast = last.prev;
         return interpolate(x, prevLast.x, last.x, prevLast.y, last.y);
@@ -177,9 +171,6 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
     @Override
     protected double interpolate(double x, int floorIndex) {
-        if (count == 1) {
-            return head.y;
-        }
         Node leftNode = getNode(floorIndex);
         Node rightNode = leftNode.next;
         return interpolate(x, leftNode.x, rightNode.x, leftNode.y, rightNode.y);
