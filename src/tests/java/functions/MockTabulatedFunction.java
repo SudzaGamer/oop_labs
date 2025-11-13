@@ -1,5 +1,8 @@
 package functions;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 public class MockTabulatedFunction extends AbstractTabulatedFunction{
     private final double x0 = 1;
     private final double x1 = 2;
@@ -75,6 +78,28 @@ public class MockTabulatedFunction extends AbstractTabulatedFunction{
     @Override
     protected double interpolate(double x, int floorIndex) {
         return interpolate(x, x0, x1, y0, y1);
+    }
+
+    @Override
+    public Iterator<Point> iterator() {
+        return new Iterator<Point>() {
+            private int currentIndex = 0;
+
+            @Override
+            public boolean hasNext() {
+                return currentIndex < getCount();
+            }
+
+            @Override
+            public Point next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException("No more points in the tabulated function");
+                }
+                Point point = new Point(getX(currentIndex), getY(currentIndex));
+                currentIndex++;
+                return point;
+            }
+        };
     }
 
 }

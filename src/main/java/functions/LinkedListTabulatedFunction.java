@@ -2,6 +2,10 @@ package functions;
 
 import exceptions.InterpolationException;
 
+import java.awt.*;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
     private Node head;
     private int count;
@@ -81,6 +85,31 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
             current = current.next;
         }
         return current;
+    }
+
+    @Override
+    public Iterator<Point> iterator() {
+        return new Iterator<Point>() {
+            private Node node = head;
+            private int visited = 0;
+
+            @Override
+            public boolean hasNext() {
+                return visited < count && node != null;
+            }
+
+            @Override
+            public Point next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+
+                Point point = new Point(node.x, node.y);
+                node = node.next;
+                visited++;
+                return point;
+            }
+        };
     }
 
     @Override
@@ -184,7 +213,6 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
     @Override
     public void insert(double x, double y) {
-        // Если точка с таким x уже есть — просто обновляем y
         int index = indexOfX(x);
         if (index != -1) {
             getNode(index).y = y;
