@@ -3,6 +3,9 @@ package functions;
 import exceptions.InterpolationException;
 import org.junit.jupiter.api.Test;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class LinkedListTabulatedFunctionTest {
@@ -85,8 +88,7 @@ class LinkedListTabulatedFunctionTest {
 
 
     @Test
-    void testExpectedExceptionOfGetX()
-    {
+    void testExpectedExceptionOfGetX() {
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
 
@@ -149,5 +151,49 @@ class LinkedListTabulatedFunctionTest {
         // x > x1
         assertThrows(InterpolationException.class, () ->
                 function.interpolate(2.5, 0));
+    }
+
+    @Test
+    void testIteratorWithWhileLoop() {
+        double[] x = {0.0, 1.0, 2.0};
+        double[] y = {0.0, 1.0, 4.0};
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(x, y);
+
+        Iterator<Point> iterator = function.iterator();
+        int index = 0;
+        while (iterator.hasNext()) {
+            Point p = iterator.next();
+            assertEquals(x[index], p.x, 1e-10);
+            assertEquals(y[index], p.y, 1e-10);
+            index++;
+        }
+        assertEquals(3, index);
+    }
+
+    @Test
+    void testIteratorWithForEachLoop() {
+        double[] x = {0.0, 1.0, 2.0};
+        double[] y = {0.0, 1.0, 4.0};
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(x, y);
+
+        int index = 0;
+        for (Point p : function) {
+            assertEquals(x[index], p.x, 1e-10);
+            assertEquals(y[index], p.y, 1e-10);
+            index++;
+        }
+        assertEquals(3, index);
+    }
+
+    @Test
+    void testIterator() {
+        double[] x = {0.0, 1.0};
+        double[] y = {0.0, 1.0};
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(x, y);
+        Iterator<Point> iterator = function.iterator();
+
+        iterator.next();
+        iterator.next();
+        assertThrows(NoSuchElementException.class, iterator::next);
     }
 }
