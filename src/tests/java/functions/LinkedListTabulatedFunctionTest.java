@@ -82,6 +82,19 @@ class LinkedListTabulatedFunctionTest {
         assertEquals(0.0, function.getX(0), 1e-10); // Должен вернуться к началу
     }
 
+
+    @Test
+    void testExpectedExceptionOfGetX()
+    {
+        double[] xValues = {0.0, 1.0, 2.0};
+        double[] yValues = {0.0, 1.0, 4.0};
+
+        LinkedListTabulatedFunction fun = new LinkedListTabulatedFunction(xValues, yValues);
+
+        assertThrows(IllegalArgumentException.class, () -> fun.getX(-1));
+
+    }
+
     @Test
     void testRemoveFirst() {
         double[] xValues = {1, 2, 3};
