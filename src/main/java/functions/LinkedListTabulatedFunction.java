@@ -4,6 +4,13 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
     private Node head;
     private int count;
 
+    public static class Node {
+        public Node next;
+        public Node prev;
+        public double x;
+        public double y;
+    }
+
     private void addNode(double x, double y) {
         Node newNode = new Node();
         newNode.x = x;
@@ -22,6 +29,8 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
         }
         count++;
     }
+
+
 
     public LinkedListTabulatedFunction(double[] xValues, double[] yValues) {
         if (xValues.length != yValues.length) {
