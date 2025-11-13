@@ -201,4 +201,6 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         yValues = newYValues;
         count--;
     }
+
+
 }
