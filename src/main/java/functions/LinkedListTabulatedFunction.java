@@ -1,5 +1,7 @@
 package functions;
 
+import exceptions.InterpolationException;
+
 public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
     private Node head;
     private int count;
@@ -33,12 +35,11 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
 
     public LinkedListTabulatedFunction(double[] xValues, double[] yValues) {
-        if (xValues.length != yValues.length) {
-            throw new IllegalArgumentException("Arrays must have the same length");
-        }
         if (xValues.length < 2) {
             throw new IllegalArgumentException("At least 2 points are required");
         }
+        checkLengthIsTheSame(xValues, yValues);
+        checkSorted(xValues);
 
         for (int i = 0; i < xValues.length; i++) {
             addNode(xValues[i], yValues[i]);
@@ -173,6 +174,11 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
     protected double interpolate(double x, int floorIndex) {
         Node leftNode = getNode(floorIndex);
         Node rightNode = leftNode.next;
+
+        if (x < leftNode.x || x > rightNode.x) {
+            throw new InterpolationException("x вне диапазона интерполяции");
+        }
+
         return interpolate(x, leftNode.x, rightNode.x, leftNode.y, rightNode.y);
     }
 

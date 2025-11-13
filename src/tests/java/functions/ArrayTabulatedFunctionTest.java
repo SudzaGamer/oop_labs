@@ -1,5 +1,6 @@
 package functions;
 
+import exceptions.InterpolationException;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -96,5 +97,21 @@ class ArrayTabulatedFunctionTest {
         assertEquals(3, f.getCount());
         assertEquals(3, f.getX(1));
         assertEquals(30, f.getY(1));
+    }
+
+    @Test
+    void testInterpolateThrowsWhenXOutOfRange() {
+        double[] x = {1.0, 2.0, 3.0};
+        double[] y = {2.0, 4.0, 6.0};
+
+        ArrayTabulatedFunction function = new ArrayTabulatedFunction(x, y);
+
+        // x < x0
+        assertThrows(InterpolationException.class, () ->
+                function.interpolate(0.5, 0));
+
+        // x > x1
+        assertThrows(InterpolationException.class, () ->
+                function.interpolate(2.5, 0));
     }
 }

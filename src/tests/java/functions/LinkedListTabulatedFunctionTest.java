@@ -1,5 +1,6 @@
 package functions;
 
+import exceptions.InterpolationException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -132,5 +133,21 @@ class LinkedListTabulatedFunctionTest {
         f.insert(4, 400);
         assertEquals(6, f.getCount());
         assertEquals(400, f.getY(3));
+    }
+
+    @Test
+    void testInterpolateThrowsWhenXOutOfRange() {
+        double[] x = {1.0, 2.0, 3.0};
+        double[] y = {2.0, 4.0, 6.0};
+
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(x, y);
+
+        // x < x0
+        assertThrows(InterpolationException.class, () ->
+                function.interpolate(0.5, 0));
+
+        // x > x1
+        assertThrows(InterpolationException.class, () ->
+                function.interpolate(2.5, 0));
     }
 }

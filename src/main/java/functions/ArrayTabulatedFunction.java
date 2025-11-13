@@ -1,5 +1,7 @@
 package functions;
 
+import exceptions.InterpolationException;
+
 import java.util.Arrays;
 
 public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
@@ -8,12 +10,11 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
     private int count;
 
     public ArrayTabulatedFunction(double[] xValues, double[] yValues) {
-        if (xValues.length != yValues.length) {
-            throw new IllegalArgumentException("Arrays must have the same length");
-        }
         if (xValues.length < 2) {
             throw new IllegalArgumentException("At least 2 points are required");
         }
+        checkLengthIsTheSame(xValues, yValues);
+        checkSorted(xValues);
 
         this.count = xValues.length;
         this.xValues = Arrays.copyOf(xValues, count);
@@ -136,7 +137,13 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
 
     @Override
     protected double interpolate(double x, int floorIndex) {
-        return interpolate(x, xValues[floorIndex], xValues[floorIndex + 1],
+        double x0 = xValues[floorIndex];
+        double x1 = xValues[floorIndex + 1];
+        if (x < x0 || x > x1) {
+            throw new InterpolationException("x вне диапазона интерполяции");
+        }
+
+        return interpolate(x, x0, x1,
                 yValues[floorIndex], yValues[floorIndex + 1]);
     }
 

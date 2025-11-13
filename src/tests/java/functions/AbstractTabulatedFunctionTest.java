@@ -1,5 +1,7 @@
 package functions;
 
+import exceptions.ArrayIsNotSortedException;
+import exceptions.DifferentLengthOfArraysException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,5 +26,20 @@ class AbstractTabulatedFunctionTest {
         assertEquals(6.0, fun.apply(1.5), 1e-10);    // Проверка отрицательного числа
         assertEquals(0.0, fun.apply(0.0), 1e-10);          // Проверка дробного числа
         assertEquals(12.0, fun.apply(3.0), 1e-10);          // Проверка дробного числа
+    }
+
+    @Test
+    void checkLengthIsTheSame() {
+        double[] x = {1, 2, 3};
+        double[] y = {1, 2};
+        assertThrows(DifferentLengthOfArraysException.class, () ->
+                AbstractTabulatedFunction.checkLengthIsTheSame(x, y));
+    }
+
+    @Test
+    void checkSorted() {
+        double[] x = {1, 3, 2};
+        assertThrows(ArrayIsNotSortedException.class, () ->
+                AbstractTabulatedFunction.checkSorted(x));
     }
 }
