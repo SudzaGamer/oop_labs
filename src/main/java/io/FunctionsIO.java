@@ -5,6 +5,9 @@ import functions.TabulatedFunction;
 import functions.factory.TabulatedFunctionFactory;
 
 import java.io.*;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
 
 public final class FunctionsIO {
     private FunctionsIO() {
@@ -51,4 +54,41 @@ public final class FunctionsIO {
 
         return factory.create(xValues, yValues);
     }
+
+    public static TabulatedFunction readTabulatedFunction(BufferedReader reader, TabulatedFunctionFactory factory) throws IOException {
+        try {
+            String line = reader.readLine();
+            int count = Integer.parseInt(line);
+
+            double[] xValues = new double[count];
+            double[] yValues = new double[count];
+
+            NumberFormat formatter = NumberFormat.getInstance(Locale.forLanguageTag("ru"));
+
+            for (int i = 0; i < count; i++) {
+                line = reader.readLine();
+                if (line == null) {
+                    throw new IOException("Unexpected end of file");
+                }
+
+                String[] parts = line.split(" ");
+                if (parts.length != 2) {
+                    throw new IOException("Invalid line format: " + line);
+                }
+
+                try {
+                    xValues[i] = formatter.parse(parts[0]).doubleValue();
+                    yValues[i] = formatter.parse(parts[1]).doubleValue();
+                } catch (ParseException e) {
+                    throw new IOException("Failed to parse number", e);
+                }
+            }
+
+            return factory.create(xValues, yValues);
+
+        } catch (NumberFormatException e) {
+            throw new IOException("Failed to parse count of points", e);
+        }
+    }
+
 }
