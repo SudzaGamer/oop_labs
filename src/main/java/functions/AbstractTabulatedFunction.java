@@ -5,8 +5,11 @@ import exceptions.DifferentLengthOfArraysException;
 
 public abstract class AbstractTabulatedFunction implements TabulatedFunction {
     protected abstract int floorIndexOfX(double x);
+
     protected abstract double extrapolateLeft(double x);
+
     protected abstract double extrapolateRight(double x);
+
     protected abstract double interpolate(double x, int floorIndex);
 
     protected double interpolate(double x, double leftX, double rightX, double leftY, double rightY) {
@@ -42,6 +45,20 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
                 throw new ArrayIsNotSortedException("Array xValues not sorted");
             }
         }
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(getClass().getSimpleName()).append(" size = ").append(getCount()).append("\n");
+
+        for (Point point : this) {
+            sb.append("[").append(point.x).append("; ").append(point.y).append("]\n");
+        }
+
+        return sb.toString();
     }
 
 }
