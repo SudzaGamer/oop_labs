@@ -85,4 +85,38 @@ class TabulatedFunctionOperationServiceTest {
 
         assertThrows(RuntimeException.class, () -> service.add(f1, f2));
     }
+
+    void testMultiplyArrayLinkedList() {
+        double[] x = {0, 1, 2};
+        double[] y1 = {5, 6, 7};
+        double[] y2 = {1, 2, 3};
+
+        TabulatedFunction f1 = new ArrayTabulatedFunction(x, y1);
+        TabulatedFunction f2 = new LinkedListTabulatedFunction(x, y2);
+
+        TabulatedFunctionOperationService service = new TabulatedFunctionOperationService(new LinkedListTabulatedFunctionFactory());
+
+        TabulatedFunction result = service.multiply(f1, f2);
+
+        assertEquals(5, result.getY(0));
+        assertEquals(12, result.getY(1));
+        assertEquals(21, result.getY(2));
+    }
+
+    void testDivideArrayLinkedList() {
+        double[] x = {0, 1, 2};
+        double[] y1 = {5, 6, 12};
+        double[] y2 = {1, 2, 3};
+
+        TabulatedFunction f1 = new ArrayTabulatedFunction(x, y1);
+        TabulatedFunction f2 = new LinkedListTabulatedFunction(x, y2);
+
+        TabulatedFunctionOperationService service = new TabulatedFunctionOperationService(new LinkedListTabulatedFunctionFactory());
+
+        TabulatedFunction result = service.divide(f1, f2);
+
+        assertEquals(5, result.getY(0));
+        assertEquals(3, result.getY(1));
+        assertEquals(4, result.getY(2));
+    }
 }
