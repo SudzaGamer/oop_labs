@@ -1,19 +1,19 @@
 package io;
 
-import functions.ArrayTabulatedFunction;
+import functions.LinkedListTabulatedFunction;
 import functions.TabulatedFunction;
 import operations.TabulatedDifferentialOperator;
 
 import java.io.*;
 
-public class ArrayTabulatedFunctionSerialization {
+public class LinkedListTabulatedFunctionSerialization {
 
     public static void main(String[] args) {
-        try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream("output/serialized array functions.bin"))) {
+        try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream("output/serialized linked list functions.bin"))) {
 
             double[] x = {0, 1, 2, 3, 4};
             double[] y = {0, 1, 4, 9, 16};
-            ArrayTabulatedFunction f = new ArrayTabulatedFunction(x, y);
+            LinkedListTabulatedFunction f = new LinkedListTabulatedFunction(x, y);
 
             TabulatedDifferentialOperator differentialOperator = new TabulatedDifferentialOperator();
 
@@ -27,7 +27,8 @@ public class ArrayTabulatedFunctionSerialization {
             e.printStackTrace();
         }
 
-        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream("output/serialized array functions.bin"))) {
+        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream("output/serialized linked list functions.bin"))) {
+
             TabulatedFunction df  = FunctionsIO.deserialize(bis);
             TabulatedFunction df1 = FunctionsIO.deserialize(bis);
             TabulatedFunction df2 = FunctionsIO.deserialize(bis);
