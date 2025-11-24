@@ -13,10 +13,13 @@ public class MultiplyingTask implements Runnable {
     @Override
     public void run() {
         for (int i = 0; i < function.getCount(); i++) {
-            double newY = function.getY(i) * 2;
-            function.setY(i, newY);
+            synchronized (function) {
+                double newY = function.getY(i) * 2;
+                function.setY(i, newY);
+            }
         }
 
-        System.out.printf("Thread '%s' finished multiplying task%n", Thread.currentThread().getName());
+        System.out.printf("Thread '%s' finished multiplying task%n",
+                Thread.currentThread().getName());
     }
 }

@@ -10,7 +10,7 @@ public class MultiplyingTaskExecutor {
 
     public static void main(String[] args) throws InterruptedException {
         UnitFunction unitFunction = new UnitFunction();
-        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(unitFunction, 1, 20, 20);
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(unitFunction, 1, 1000, 1000);
 
         List<Thread> threads = new ArrayList<>();
 
