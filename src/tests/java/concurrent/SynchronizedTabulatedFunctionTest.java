@@ -13,44 +13,34 @@ class SynchronizedTabulatedFunctionTest {
 
     @Test
     void testSynchronizedTabulatedFunctionMethods() {
-        // Создаем обычную табулированную функцию (ArrayTabulatedFunction)
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {10.0, 20.0, 30.0};
         TabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
 
-        // Оборачиваем её в SynchronizedTabulatedFunction
         TabulatedFunction synchronizedFunction = new SynchronizedTabulatedFunction(function);
 
-        // Проверяем работу методов
         assertEquals(function.getCount(), synchronizedFunction.getCount());
         assertEquals(function.getX(1), synchronizedFunction.getX(1));
         assertEquals(function.getY(1), synchronizedFunction.getY(1));
 
-        // Проверяем установку нового Y-значения
         synchronizedFunction.setY(1, 50.0);
         assertEquals(50.0, synchronizedFunction.getY(1));
 
-        // Проверяем метод indexOfX
         assertEquals(1, synchronizedFunction.indexOfX(1.0));
 
-        // Проверяем метод indexOfY
         assertEquals(50.0, synchronizedFunction.getY(1));
 
     }
     @Test
     void testIterator() {
-        // Создаем обычную табулированную функцию (ArrayTabulatedFunction)
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {10.0, 20.0, 30.0};
         TabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
 
-        // Оборачиваем её в SynchronizedTabulatedFunction
         TabulatedFunction synchronizedFunction = new SynchronizedTabulatedFunction(function);
 
-        // Получаем итератор
         Iterator<Point> iterator = synchronizedFunction.iterator();
 
-        // Проверяем, что итератор возвращает правильные значения
         assertTrue(iterator.hasNext());
         Point firstPoint = iterator.next();
         assertEquals(0.0, firstPoint.x);
@@ -67,5 +57,40 @@ class SynchronizedTabulatedFunctionTest {
         assertEquals(30.0, thirdPoint.y);
 
         assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    void testDoSynchronously() {
+        double[] xValues = {0.0, 1.0, 2.0};
+        double[] yValues = {10.0, 20.0, 30.0};
+        TabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
+
+        SynchronizedTabulatedFunction synchronizedFunction = new SynchronizedTabulatedFunction(function);
+
+        SynchronizedTabulatedFunction.Operation<Double> sumOperation = new SynchronizedTabulatedFunction.Operation<Double>() {
+            @Override
+            public Double apply(SynchronizedTabulatedFunction function) {
+                double sum = 0;
+                for (int i = 0; i < function.getCount(); i++) {
+                    sum += function.getY(i);
+                }
+                return sum;
+            }
+        };
+
+        Double sum = synchronizedFunction.doSynchronously(sumOperation);
+        assertEquals(60.0, sum, "Сумма значений Y должна быть равна 60.0");
+
+        SynchronizedTabulatedFunction.Operation<Void> printOperation = new SynchronizedTabulatedFunction.Operation<Void>() {
+            @Override
+            public Void apply(SynchronizedTabulatedFunction function) {
+                for (int i = 0; i < function.getCount(); i++) {
+                    System.out.println("Point " + i + ": X = " + function.getX(i) + ", Y = " + function.getY(i));
+                }
+                return null;
+            }
+        };
+
+        synchronizedFunction.doSynchronously(printOperation);
     }
 }
