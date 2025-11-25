@@ -81,7 +81,9 @@ public class SynchronizedTabulatedFunction implements TabulatedFunction {
         synchronized (function) {
             return function.apply(x);
         }
-    }    public Iterator<Point> iterator() {
+    }
+
+    public Iterator<Point> iterator() {
         synchronized (function) {
             Point[] points = TabulatedFunctionOperationService.asPoints(function);
 
